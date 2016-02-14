@@ -1,0 +1,24 @@
+{
+  "name": "munkey",
+  "version": "0.0.1",
+  "description": "Credential manager",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alasdairhurst/Munkey.git"
+  },
+  "keywords": [
+    "credential",
+    "password",
+    "manager"
+  ],
+  "author": "Alasdair Hurst",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alasdairhurst/Munkey/issues"
+  },
+  "homepage": "https://github.com/alasdairhurst/Munkey#readme"
+}
