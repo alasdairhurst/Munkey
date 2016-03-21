@@ -33,3 +33,9 @@ node_modules
 .node_repl_history
 
 .idea/
+
+# Built files
+./lib/*
+
+# Config file
+./src/conf.js

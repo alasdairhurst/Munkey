@@ -2,9 +2,14 @@
   "name": "munkey",
   "version": "0.0.1",
   "description": "Credential manager",
-  "main": "app.js",
+  "main": "lib/app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "babel src -d lib && node ./lib/app.js",
+    "build": "babel src -d lib"
+  },
+  "engines": {
+    "node": "5.7.0"
   },
   "repository": {
     "type": "git",
@@ -20,5 +25,12 @@
   "bugs": {
     "url": "https://github.com/alasdairhurst/Munkey/issues"
   },
-  "homepage": "https://github.com/alasdairhurst/Munkey#readme"
+  "homepage": "https://github.com/alasdairhurst/Munkey#readme",
+  "devDependencies": {
+    "babel-cli": "^6.5.1"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "mysql": "^2.10.2"
+  }
 }
