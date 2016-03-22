@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 
 //Initialises the web app
-export const initClient = function(webApp) {
+export function initClient(webApp) {
 	return new Promise(function(resolve, reject) {
 		"use strict";
 

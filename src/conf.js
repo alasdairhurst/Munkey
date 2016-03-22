@@ -10,7 +10,8 @@ global.$config = {
 		port: 8000
 	},
 	db: {
-		main: Object.assign({name: "munkey"}, db),
-		sessions: Object.assign({name: "munkey_sessions"}, db)
+		base: db,
+		main: Object.assign({database: "munkey"}, db),
+		session: Object.assign({database: "munkey_sessions"}, db)
 	}
 };
