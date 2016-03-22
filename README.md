@@ -11,7 +11,7 @@ Copy ```src/conf.example.js``` to ```src/conf.js```
 Install MySQL and set the chosen username and password in conf.js
 
 Build and run the project:
-$ npm start
+$ npm run start
 
 To just build the project:
-$ npm build
+$ npm run build

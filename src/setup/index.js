@@ -15,13 +15,19 @@ baseDB.connect()
 .then(() => db.main.query('CREATE TABLE IF NOT EXISTS users (' +
   'id INT,' +
   'created DATETIME NOT NULL,'+
-  'updated DATETIME NULL,'+
+  'updated DATETIME NOT NULL,'+
   'username VARCHAR(45) NULL,'+
   'password VARCHAR(45) NULL,'+
   'password_salt VARCHAR(45) NULL,'+
   'data VARCHAR(1000) NULL,'+
   'PRIMARY KEY (id))'))
 	// Create the tables for the session database
+.then(() => db.session.query('CREATE TABLE IF NOT EXISTS sessions (' +
+    'id INT,' +
+    'created DATETIME NOT NULL,'+
+    'updated DATETIME NOT NULL,'+
+    'username VARCHAR(45) NULL,'+
+    'PRIMARY KEY (id))'))
 .then(() => db.main.disconnect())
 .then(() => db.session.disconnect())
 .catch(logAndExit);

@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/alasdairhurst/Munkey#readme",
   "devDependencies": {
-    "babel-cli": "^6.5.1"
+    "babel-cli": "^6.5.1",
+    "chai": "^3.5.0"
   },
   "dependencies": {
     "express": "^4.13.4",
