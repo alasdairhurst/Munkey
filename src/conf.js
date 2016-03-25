@@ -9,9 +9,14 @@ global.$config = {
 	http: {
 		port: 8000
 	},
+	default: {
+		username: 'alasdair'
+	},
+	api: {
+		path: '/api/v1/'
+	},
 	db: {
 		base: db,
-		main: Object.assign({database: "munkey"}, db),
-		session: Object.assign({database: "munkey_sessions"}, db)
+		main: Object.assign({database: "munkey"}, db)
 	}
 };

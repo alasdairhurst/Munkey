@@ -4,7 +4,7 @@ var chai = require('chai'),
 	db = require('../../lib/modules/db');
 
 describe('Database', function() {
-	var mySQL,testDB, opts;
+	var mySQL, testDB, opts;
 	before(function() {
 		opts = global.$config.db.base;
 		mySQL = new db.Database(opts);
