@@ -35,7 +35,7 @@ node_modules
 .idea/
 
 # Built files
-./lib/*
+/lib/
 
 # Config file
-./src/conf.js
+/src/conf.js
