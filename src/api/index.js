@@ -1,3 +1,6 @@
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import multipartParser from 'middleware/parse.form';
 import routes from './routes/index';
 import 'colors';
 
@@ -6,10 +9,10 @@ export const initApi = function(app) {
 	return new Promise((resolve, reject) => {
 		"use strict";
 
-		app.use((req ,res, next) => {
-			console.log(`[${req.method} ${req.url}]`.green);
-			next();
-		});
+		app.use(morgan('dev'));
+		app.use(bodyParser.urlencoded({extended: true}));
+		app.use(bodyParser.json());
+		app.use(multipartParser);
 
 		app.get(global.$config.api.path, (req, res) => {
 			res.send('munKey API');
@@ -19,12 +22,6 @@ export const initApi = function(app) {
 		for (let route of routes) {
 			app[route.method](global.$config.api.path + route.path, route.action);
 		}
-
-		app.use((err, req, res, next) => {
-			console.error(`[${req.method} ${req.url}]`.red, err.stack || err.message || err);
-			res.status(err.code || 500).send(err.message || 'Server Error');
-			next();
-		});
 
 		resolve(app);
 	});

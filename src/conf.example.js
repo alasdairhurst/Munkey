@@ -1,22 +1,29 @@
-const db = {
-	host: 'localhost',
-	port: 3306,
-	user: "alasdair",
-	password: "5b$tns18&6%VjqJ"
-};
-
 global.$config = {
 	http: {
 		port: 8000
 	},
 	default: {
-		username: 'munkey'
+		username: "changeme"
 	},
 	api: {
 		path: '/api/v1/'
 	},
+	crypto: {
+		salt: {
+			bytes: 256
+		},
+		hash: {
+			iterations: 10000
+		}
+	},
 	db: {
-		base: db,
-		main: Object.assign({database: "munkey"}, db)
+		connection: {
+			host: 'localhost',
+			port: 3306,
+			user: "root",
+			password: "root",
+			database: "munkey"
+		},
+		debug: false
 	}
 };

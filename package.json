@@ -1,6 +1,6 @@
 {
   "name": "munkey",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Credential manager",
   "main": "lib/app.js",
   "scripts": {
@@ -32,8 +32,13 @@
   },
   "dependencies": {
     "async": "1.1.1",
+    "body-parser": "^1.15.0",
     "colors": "^1.1.2",
     "express": "^4.13.4",
+    "express-error-handler": "^1.1.0",
+    "formidable": "^1.0.17",
+    "knex": "^0.10.0",
+    "morgan": "^1.7.0",
     "mysql": "^2.10.2"
   }
 }
