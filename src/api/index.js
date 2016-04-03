@@ -9,7 +9,10 @@ export const initApi = function(app) {
 	return new Promise((resolve, reject) => {
 		"use strict";
 
+		// logging
 		app.use(morgan('dev'));
+
+		// parse body
 		app.use(bodyParser.urlencoded({extended: true}));
 		app.use(bodyParser.json());
 		app.use(multipartParser);
@@ -20,6 +23,7 @@ export const initApi = function(app) {
 
 		// setup all the routes
 		for (let route of routes) {
+			console.log('Setting up route:'.blue, route.method.green, global.$config.api.path + route.path);
 			app[route.method](global.$config.api.path + route.path, route.action);
 		}
 

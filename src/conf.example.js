@@ -16,6 +16,9 @@ global.$config = {
 			iterations: 10000
 		}
 	},
+	session: {
+		secret: "mySecret"
+	},
 	db: {
 		connection: {
 			host: 'localhost',

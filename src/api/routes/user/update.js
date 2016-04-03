@@ -25,6 +25,16 @@ export default {
 			return resolve();
 		})
 		.then(() => GetUser({fields:['username','password','password_salt']}))
+		.then((user) => {
+			return new Promise((resolve, reject) => {
+				"use strict";
+				// validate the session
+				if (!req.session.username || req.session.username != user.username) {
+					return res.status(403).send({success: false, error: "Not authenticated"});
+				}
+				resolve(user);
+			});
+		})
 		.then(user => {
 			return new Promise((resolve, reject) => {
 				if (!user) {

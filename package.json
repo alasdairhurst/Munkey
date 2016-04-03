@@ -5,8 +5,8 @@
   "main": "lib/app.js",
   "scripts": {
     "test": "test",
-    "start": "babel src -d lib && node ./lib/app.js",
-    "build": "babel src -d lib"
+    "start": "babel src -d lib --ignore=bower --copy-files && node ./lib/app.js",
+    "build": "babel src -d lib --ignore=bower --copy-files"
   },
   "engines": {
     "node": "5.7.0"
@@ -34,11 +34,15 @@
     "async": "1.1.1",
     "body-parser": "^1.15.0",
     "colors": "^1.1.2",
+    "connect-session-knex": "^1.0.22",
     "express": "^4.13.4",
     "express-error-handler": "^1.1.0",
+    "express-session": "^1.13.0",
     "formidable": "^1.0.17",
     "knex": "^0.10.0",
     "morgan": "^1.7.0",
-    "mysql": "^2.10.2"
+    "mysql": "^2.10.2",
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.1"
   }
 }

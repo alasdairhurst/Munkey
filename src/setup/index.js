@@ -13,13 +13,6 @@ baseDB.raw(`CREATE DATABASE IF NOT EXISTS ${global.$config.db.connection.databas
 		});
 	})
 	.then(() => {
-		return db.schema.createTableIfNotExists('sessions', table => {
-			table.increments('id').primary();
-			table.timestamps();
-			table.text('user_id');
-		});
-	})
-	.then(() => {
 		process.exit();
 	})
 	.catch(err => {

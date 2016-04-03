@@ -8,6 +8,16 @@ export default {
 	method: 'get',
 	action: function(req, res) {
 		GetUser()
+		.then((user) => {
+			return new Promise((resolve, reject) => {
+				"use strict";
+				// validate the session
+				if (!req.session.username || req.session.username != user.username) {
+					return res.status(403).send({success: false, error: "Not authenticated"});
+				}
+				resolve(user);
+			})
+		})
 		.then((user) => res.send({success: true, result: user}))
 		.catch(err => {
 			console.error(err);
