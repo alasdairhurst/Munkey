@@ -4,6 +4,6 @@ define([
 	Backbone
 ) {
 	return Backbone.Model.extend({
-		url: '/api/v1/auth/login'
-	})
+		url: '/api/v1/setup/account'
+	});
 });

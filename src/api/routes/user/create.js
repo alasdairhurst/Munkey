@@ -13,11 +13,14 @@ export default {
 			if (!req.body.password){
 				return res.status(400).send({success: false, error:'password required'});
 			}
-			if (!req.body.password_confirm) {
-				return res.status(400).send({success: false, error:'password_confirm required'});
+			if (!req.body.passwordConfirm) {
+				return res.status(400).send({success: false, error:'passwordConfirm required'});
 			}
-			if (req.body.password != req.body.password_confirm) {
-				return res.status(400).send({success: false, error:'password and password_confirm do not match'});
+			if (req.body.password != req.body.passwordConfirm) {
+				return res.status(400).send({success: false, error:'password and passwordConfirm do not match'});
+			}
+			if (req.body.username != global.$config.default.username) {
+				return res.status(400).send({success: false, error:'invalid username'});
 			}
 			return resolve();
 		})

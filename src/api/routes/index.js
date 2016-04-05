@@ -7,10 +7,13 @@ import user_update from './user/update';
 import auth_login from './auth/login';
 import auth_logout from './auth/logout';
 
+import setup_account from './setup/account';
+
 export default [
 	user_create,
 	user_read,
 	user_update,
 	auth_login,
-	auth_logout
+	auth_logout,
+	setup_account
 ];

@@ -1,14 +1,16 @@
-<br/>
-homepage <br/>
-<% if (loggedIn) { %>
-<a href="/#/logout">Logout Here</a><br/>
-<br/>
+<div id="index">
+	<br/>
+	<h1>Home Page</h1>
+	<% if (loggedIn) { %>
+	<a href="/#/logout">Logout Here</a><br/>
+	<br/>
 
-Welcome, <%= username %><br/>
-<% } else { %>
-<a href="/#/login">Login Here</a><br/>
-<br/>
-<% } %>
-<a href="/#/special">Special Page</a>
-<br/>
-<br/>
+	Welcome, <%= username %><br/>
+	<% } else { %>
+	<a href="/#/login">Login Here</a><br/>
+	<br/>
+	<% } %>
+	<a href="/#/credentials/viewer">Edit Credentials</a>
+	<br/>
+	<br/>
+</div>

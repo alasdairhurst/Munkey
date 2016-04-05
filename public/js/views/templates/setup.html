@@ -1,0 +1,20 @@
+<div id="setup">
+	<br/>
+	<h1>Setup Page</h1>
+	<% if (hasAccount) { %>
+		Account already exists!<br/>
+		<a href="/#/login">Login Here</a><br/>
+		<br/>
+	<% } else { %>
+		<span id="response"></span>
+		<form>
+			Username (Defined in server config):<br/>
+			<input type="text" id="username"><br/>
+			Master Password:<br/>
+			<input type="password" id="masterPassword"><br/>
+			Master Password Confirmation:<br/>
+			<input type="password" id="masterPasswordConfirm"><br/>
+			<input type="submit" id="submit" value="Submit">
+		</form>
+	<% } %>
+</div>

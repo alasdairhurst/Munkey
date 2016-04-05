@@ -1,14 +1,16 @@
 define([
 	'views/login',
 	'views/index',
-	'models/user',
-	'models/logout'
+	'views/setup',
+	'views/credentials/viewer',
+	'models/user'
 ],
 function(
 	LoginView,
     IndexView,
-    UserModel,
-    LogoutModel
+	SetupView,
+	CredentialViewerView,
+    UserModel
 ) {
 	return Backbone.Router.extend({
 		initialize: function() {
@@ -16,12 +18,14 @@ function(
 			this.route('', this.index);
 			this.route('login', this.login);
 			this.route('logout', this.logout);
-			this.route('special', this.special);
+			this.route('setup', this.setup);
+			this.route('credentials/viewer', this.credentialViewer);
 
 		},
 		execute: function(callback, args) {
 			var freePages = [
-				'#/login'
+				'#/login',
+				'#/setup'
 			];
 			// certain pages can be viewed without having a session
 			var canViewWithoutSession = _.some(freePages, function(url) {
@@ -30,13 +34,6 @@ function(
 				}
 				return _.startsWith(window.location.hash, url);
 			});
-
-			/*
-			if (canViewWithoutSession) {
-				// just continue if no session is needed
-				return done();
-			}
-			*/
 
 			// create the user on the window if not already
 			if (!window.App.User) {
@@ -60,12 +57,18 @@ function(
 			}
 
 		},
+		any: function() {
+			window.router.navigate('', {trigger: true});
+		},
 		login: function() {
+			if (window.App.User.get('username')) {
+				return window.router.navigate('', {trigger: true});
+			}
 			new LoginView().render();
 		},
 		logout: function() {
 			// don't care if there's an error or not. just redirect after it's done
-			new LogoutModel().fetch({
+			window.App.User.logout({
 				success: done,
 				error: done
 			});
@@ -77,11 +80,11 @@ function(
 		index: function() {
 			new IndexView().render();
 		},
-		special: function() {
-			new IndexView().render();
+		setup: function() {
+			new SetupView().render();
 		},
-		any: function() {
-			return window.router.navigate('', {trigger: true});
+		credentialViewer: function() {
+			new CredentialViewerView().render();
 		}
 	});
 });

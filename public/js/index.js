@@ -1,23 +1,12 @@
 require.config({
 	paths: {
-		'backbone': '../bower/backbone/backbone',
 		'underscore': '../bower/underscore/underscore',
 		'underscore.string': '../bower/underscore.string/dist/underscore.string.min',
+		'backbone': '../bower/backbone/backbone',
 		'jquery': '../bower/jquery/dist/jquery',
 		'text': '../bower/text/text',
-		'tpl': '../bower/requirejs-tpl/tpl'
-	},
-	shim: {
-		underscore: {
-			exports: '_'
-		},
-		jquery: {
-			exports: '$'
-		},
-		backbone: {
-			deps: ["underscore", "jquery"],
-			exports: 'Backbone'
-		}
+		'tpl': '../bower/requirejs-tpl/tpl',
+		'crypto': '../bower/crypto-js/crypto-js'
 	}
 });
 

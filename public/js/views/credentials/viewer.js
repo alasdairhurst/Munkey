@@ -1,39 +1,45 @@
 define([
-	'../models/user',
-	'tpl!/js/views/templates/login.html'
+	'tpl!/js/views/credentials/templates/viewer.html'
 ], function(
-    UserModel,
-    Template
+	Template
 ) {
 	return Backbone.View.extend({
 		el: 'body #content',
 		events: {
-			'change #login input': 'fieldChanged',
-			'click #login #submit': 'submit'
+			'change #viewer textarea': 'fieldChanged',
+			'click #viewer #submit': 'submit'
 		},
 		model: null,
+		options: {},
 		initialize() {
-			this.model = window.App.User || new UserModel();
+			this.model = window.App.User;
+			this.options.data = this.model.get('data');
+			if (!this.options.data) {
+				this.options.data = {
+					credentials: ''
+				}
+			}
+			console.log(this.options.data);
 		},
 		render: function() {
-			this.$el.html(Template({}));
+			this.$el.html(Template(this.options));
 		},
 		fieldChanged: function(e) {
 			var field = $(e.currentTarget);
-			var data = {};
-			data[field.attr('id')] = field.val();
-			this.model.set(data);
+			if (field.attr('id') == 'credentials') {
+				this.options.data.credentials = field.val();
+				this.model.set('data', this.options.data);
+			}
 		},
 		submit: function(e) {
 			e.preventDefault();
 			var self = this;
-			$('#submit').val('Logging in...');
+			$('#submit').val('Saving...');
 			// it won't update the DOM until the end of the frame so defer this call
 			setTimeout(function() {
-				self.model.login({
+				self.model.save(null, {
 					success: function() {
-						self.remove();
-						window.router.navigate('', {trigger: true});
+						$('#submit').val('Submit');
 					},
 					error: function(model, response) {
 						$('#submit').val('Submit');
@@ -41,6 +47,7 @@ define([
 					}
 				});
 			},0);
+
 		},
 		remove: function() {
 			this.undelegateEvents();

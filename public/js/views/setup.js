@@ -1,22 +1,31 @@
 define([
 	'../models/user',
-	'tpl!/js/views/templates/login.html'
+	'../models/account',
+	'tpl!/js/views/templates/setup.html'
 ], function(
-    UserModel,
-    Template
+	UserModel,
+	AccountModel,
+	Template
 ) {
 	return Backbone.View.extend({
 		el: 'body #content',
 		events: {
-			'change #login input': 'fieldChanged',
-			'click #login #submit': 'submit'
+			'change #setup input': 'fieldChanged',
+			'click #setup #submit': 'submit'
 		},
 		model: null,
+		options: {},
 		initialize() {
 			this.model = window.App.User || new UserModel();
 		},
 		render: function() {
-			this.$el.html(Template({}));
+			var self = this;
+			new AccountModel().fetch({
+				success: function(model, response) {
+					self.options.hasAccount = response.result;
+					self.$el.html(Template(self.options));
+				}
+			});
 		},
 		fieldChanged: function(e) {
 			var field = $(e.currentTarget);
@@ -27,13 +36,13 @@ define([
 		submit: function(e) {
 			e.preventDefault();
 			var self = this;
-			$('#submit').val('Logging in...');
+			$('#submit').val('Saving...');
 			// it won't update the DOM until the end of the frame so defer this call
 			setTimeout(function() {
-				self.model.login({
+				self.model.save(null, {
 					success: function() {
 						self.remove();
-						window.router.navigate('', {trigger: true});
+						window.router.navigate('login', {trigger: true});
 					},
 					error: function(model, response) {
 						$('#submit').val('Submit');
