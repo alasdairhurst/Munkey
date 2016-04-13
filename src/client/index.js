@@ -7,6 +7,7 @@ import {db} from '../api/node_modules/db';
 import path from 'path';
 import _ from 'underscore';
 import fs from 'fs';
+import helmet from 'helmet';
 const SessionStore = KnexSessionStore(session);
 // setup session store
 const store = new SessionStore({
@@ -28,6 +29,15 @@ export function initClient() {
 			store
 		}));
 
+		// make sure it can only be used locally for now.
+		app.use((req, res, next) => {
+			//console.log(req.connection.remoteAddress);
+			//if (req.connection.remoteAddress != '::1') {
+			//	return res.send('<div>404 Not Found</div>');
+			//}
+			return next();
+		});
+
 		const html = _.template('' + fs.readFileSync(__dirname + '/index.html'))();
 
 		app.get('/index.html', function(req, res) {
@@ -40,6 +50,7 @@ export function initClient() {
 
 		const staticHandler = express.static('public');
 
+		//app.use(helmet());
 		app.use(staticHandler);
 		app.use('/', staticHandler);
 

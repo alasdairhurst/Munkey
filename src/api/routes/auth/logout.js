@@ -5,12 +5,12 @@ export default {
 	path: 'auth/logout',
 	method: 'get',
 	action: function(req, res) {
-		if (req.session.logged_in) {
+		if (req.session.username) {
 			req.session.destroy(() => {
 				return res.send({success: true});
 			});
 		} else {
-			return res.status(403).send({success:false, error: 'Not authenticated'});
+			return res.status(401).send({success:false, error: 'Not authenticated'});
 		}
 	}
 }

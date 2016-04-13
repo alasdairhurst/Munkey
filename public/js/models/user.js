@@ -10,53 +10,19 @@ define([
     _s
 ) {
 	return Backbone.Model.extend({
-		action: null,
 		idAttribute: 'username',
-		url: function() {
-			if (this.action == 'login') {
-				this.action = null;
-				return '/api/v1/auth/login';
-			} else if (this.action == 'logout') {
-				this.action = null;
-				return '/api/v1/auth/logout';
-			}
-			this.action = null;
-			return '/api/v1/user';
-		},
+		url: '/api/v1/user',
 		parse: function(data) {
 			if (data.result) {
-				if (data.result.data && localStorage.getItem('password')) {
-					data.result.data = this._decryptData(data.result.data);
+				var password = window.App.Session._getPassword();
+				if (data.result.data && password) {
+					data.result.data = this._decryptData(data.result.data, password);
 				}
 				var self = this;
 				_.forEach(Object.keys(data.result), function(key) {
 					self.set(key, data.result[key]);
 				});
 			}
-		},
-		login: function(opts) {
-			this.action = 'login';
-			var success = opts.success;
-			var self = this;
-			opts.success = function() {
-				// encrypt this using something
-				localStorage.setItem('password', self.get('masterPassword'));
-				delete self.attributes.masterPassword;
-				delete self.attributes.confirmMasterPassword;
-				delete self.attributes.password;
-				delete self.attributes.confirmPassword;
-				success && success.apply(this, arguments);
-			};
-			this.save(null, _.extend({
-				type: 'POST'
-			}, opts));
-		},
-		logout: function(opts) {
-			this.clear();
-			localStorage.clear();
-			delete window.App.UserData;
-			this.action = 'logout';
-			this.fetch(opts);
 		},
 		_hashPassword: function(password) {
 			if (!this.get('username') || !password) { return null; }
@@ -77,30 +43,32 @@ define([
 				salt = Crypto.PBKDF2(this.get('username'), saltSalt, saltOpts).toString(Crypto.enc.Base64);
 			return Crypto.PBKDF2(unsaltedPassword, salt, opts).toString(Crypto.enc.Base64);
 		},
-		_encryptData: function(data) {
-			if (data && localStorage.getItem('password')) {
-				return Crypto.AES.encrypt(JSON.stringify(data), localStorage.getItem('password')).toString();
+		_encryptData: function(data, password) {
+			if (data && password) {
+				return Crypto.AES.encrypt(JSON.stringify(data), password).toString();
 			} else {
 				return null;
 			}
 		},
-		_decryptData: function(data) {
-			if (data && localStorage.getItem('password')) {
-				var decData = Crypto.AES.decrypt(data, localStorage.getItem('password')).toString(Crypto.enc.Utf8);
-				return JSON.parse(decData);
-			} else {
-				return null;
+		_decryptData: function(data, password) {
+			if (data && password) {
+				var decData = Crypto.AES.decrypt(data, password).toString(Crypto.enc.Utf8);
+				try {
+					return JSON.parse(decData);
+				} catch(e) {
+					// failed to parse. invalid data. logout.
+					window.router.navigate('#/logout', {trigger: true});
+				}
 			}
-		},
-		clear: function() {
-			Backbone.Model.prototype.clear.apply(this, arguments);
+			return null;
 		},
 		toJSON: function() {
 			var json = _.clone(this.attributes);
 
 			// encrypt the data before sending it back
-			if (json.data && localStorage.getItem('password')) {
-				json.data = this._encryptData(json.data);
+			var password = window.App.Session._getPassword();
+			if (json.data && password) {
+				json.data = this._encryptData(json.data, password);
 			} else {
 				// if we can't encrypt it, don't send it.
 				delete json.data;

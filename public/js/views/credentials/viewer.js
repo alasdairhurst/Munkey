@@ -1,6 +1,8 @@
 define([
+	'backbone',
 	'tpl!/js/views/credentials/templates/viewer.html'
 ], function(
+	Backbone,
 	Template
 ) {
 	return Backbone.View.extend({
@@ -19,7 +21,6 @@ define([
 					credentials: ''
 				}
 			}
-			console.log(this.options.data);
 		},
 		render: function() {
 			this.$el.html(Template(this.options));

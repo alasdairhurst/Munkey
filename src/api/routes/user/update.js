@@ -38,7 +38,7 @@ export default {
 		.then(user => {
 			return new Promise((resolve, reject) => {
 				if (!user) {
-					return res.status(400).send({success: false, error:'User does not exist'});
+					return res.status(404).send({success: false, error:'User does not exist'});
 				}
 				const update = {};
 				if (req.body.password) {

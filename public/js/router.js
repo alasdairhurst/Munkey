@@ -1,16 +1,20 @@
 define([
+	'backbone',
 	'views/login',
 	'views/index',
 	'views/setup',
 	'views/credentials/viewer',
-	'models/user'
+	'models/user',
+	'models/session'
 ],
 function(
+	Backbone,
 	LoginView,
     IndexView,
 	SetupView,
 	CredentialViewerView,
-    UserModel
+    UserModel,
+    SessionModel
 ) {
 	return Backbone.Router.extend({
 		initialize: function() {
@@ -25,6 +29,7 @@ function(
 		execute: function(callback, args) {
 			var freePages = [
 				'#/login',
+				'#/logout',
 				'#/setup'
 			];
 			// certain pages can be viewed without having a session
@@ -35,22 +40,48 @@ function(
 				return _.startsWith(window.location.hash, url);
 			});
 
-			// create the user on the window if not already
-			if (!window.App.User) {
-				window.App.User = new UserModel();
+			if (!window.App.Session) {
+				window.App.Session = new SessionModel();
 			}
 
-			// we'll check the user
-			window.App.User.fetch({
-				success: done,
+			window.App.Session.fetch({
+				success: next,
 				error: function() {
+					if (canViewWithoutSession) {
+						return next();
+					}
+					// show error page maybe?
+				}
+			});
+
+			function next(model, res) {
+				var activeSession = res && res.result;
+				if (!activeSession) {
+					if (window.App.User) {
+						delete window.App.User;
+					}
 					if (canViewWithoutSession) {
 						return done();
 					}
 					// user isn't logged in, so prompt
 					return window.router.navigate('#/login', {trigger: true});
 				}
-			});
+				// there's an active session so now we can check the user
+				if (!window.App.User) {
+					window.App.User = new UserModel();
+					// we'll check the user
+					window.App.User.fetch({
+						success: done,
+						error: function() {
+							// just go to logout if there's an error
+							return window.router.navigate('#/logout', {trigger: true});
+						}
+					});
+				} else {
+					// already a user so continue
+					return done();
+				}
+			}
 
 			function done() {
 				if (callback) callback.apply(this, args);
@@ -61,14 +92,14 @@ function(
 			window.router.navigate('', {trigger: true});
 		},
 		login: function() {
-			if (window.App.User.get('username')) {
+			if (window.App.Session.get('username')) {
 				return window.router.navigate('', {trigger: true});
 			}
 			new LoginView().render();
 		},
 		logout: function() {
 			// don't care if there's an error or not. just redirect after it's done
-			window.App.User.logout({
+			window.App.Session.logout({
 				success: done,
 				error: done
 			});

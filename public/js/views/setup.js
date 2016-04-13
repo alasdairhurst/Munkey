@@ -1,8 +1,10 @@
 define([
+	'backbone',
 	'../models/user',
 	'../models/account',
 	'tpl!/js/views/templates/setup.html'
 ], function(
+	Backbone,
 	UserModel,
 	AccountModel,
 	Template

@@ -1,8 +1,8 @@
 define([
-	'../models/user',
+	'backbone',
 	'tpl!/js/views/templates/login.html'
 ], function(
-    UserModel,
+	Backbone,
     Template
 ) {
 	return Backbone.View.extend({
@@ -13,7 +13,7 @@ define([
 		},
 		model: null,
 		initialize() {
-			this.model = window.App.User || new UserModel();
+			this.model = window.App.Session;
 		},
 		render: function() {
 			this.$el.html(Template({}));
@@ -37,7 +37,7 @@ define([
 					},
 					error: function(model, response) {
 						$('#submit').val('Submit');
-						$(self.$el).find('#response').html(response.responseJSON.error);
+						$(self.$el).find('#response').html(response && response.responseJSON && response.responseJSON.error || 'An Error Occurred');
 					}
 				});
 			},0);
