@@ -6,8 +6,8 @@ import './api/node_modules/db';
 initClient()
 	.then(initApi)
 	.then(server => {
-		server.listen($config.http.port, () => {
-			console.log("Started listening on port", $config.http.port);
+		server.https.listen($config.https.port, () => {
+			console.log("Started listening on https port", $config.https.port);
 		});
 	})
 	.catch(err => {

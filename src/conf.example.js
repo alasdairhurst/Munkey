@@ -1,9 +1,20 @@
+import path from 'path';
+import fs from 'fs';
+const certPath = path.join(__dirname, path.join('..', 'certs'));
 global.$config = {
+	host: 'localhost',
 	http: {
-		port: 8000
+		port: 80
+	},
+	https: {
+		port: 443,
+		key: fs.readFileSync(path.join(certPath,'key.pem')).toString(),
+		cert: fs.readFileSync(path.join(certPath,'cert.pem')).toString(),
+		ca: fs.readFileSync(path.join(certPath,'request.csr')).toString(),
+		passphrase: ''
 	},
 	default: {
-		username: "changeme"
+		username: 'munkey'
 	},
 	api: {
 		path: '/api/v1/'
@@ -17,15 +28,18 @@ global.$config = {
 		}
 	},
 	session: {
-		secret: "mySecret"
+		secret: "",
+		cookie: {
+			expires: 60 * 60 * 1000 // 1 hour
+		}
 	},
 	db: {
 		connection: {
 			host: 'localhost',
 			port: 3306,
-			user: "root",
-			password: "root",
-			database: "munkey"
+			user: '',
+			password: "",
+			database: ""
 		},
 		debug: false
 	}
