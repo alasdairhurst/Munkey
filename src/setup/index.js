@@ -1,5 +1,5 @@
 import '../conf';
-import {db, baseDB} from '../api/node_modules/db';
+import {db, baseDB} from 'db';
 
 baseDB.raw(`CREATE DATABASE IF NOT EXISTS ${global.$config.db.connection.database}`)
 	.then(() => {

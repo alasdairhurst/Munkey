@@ -3,15 +3,14 @@ import fs from 'fs';
 const certPath = path.join(__dirname, path.join('..', 'certs'));
 global.$config = {
 	host: 'localhost',
-	http: {
-		port: 80
-	},
 	https: {
-		port: 443,
-		key: fs.readFileSync(path.join(certPath,'key.pem')).toString(),
-		cert: fs.readFileSync(path.join(certPath,'cert.pem')).toString(),
-		ca: fs.readFileSync(path.join(certPath,'request.csr')).toString(),
-		passphrase: ''
+		port: 4443,
+		server: {
+			key: fs.readFileSync(path.join(certPath,'key.pem')).toString(),
+			cert: fs.readFileSync(path.join(certPath,'cert.pem')).toString(),
+			ca: fs.readFileSync(path.join(certPath,'request.csr')).toString(),
+			passphrase: ''
+		}
 	},
 	default: {
 		username: 'munkey'
