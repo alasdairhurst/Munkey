@@ -11,15 +11,16 @@ export default {
 		new Promise((resolve, reject) => {
 			//if the password is being updated then we want the new password,
 			// the confirmation and the current password
+			console.log(req.body, req.session);
 			if (req.body.password){
-				if (!req.body.password_confirm) {
-					return res.status(400).send({success: false, error:'password_confirm required'});
+				if (!req.body.passwordConfirm) {
+					return res.status(400).send({success: false, error:'passwordConfirm required'});
 				}
-				if (req.body.password != req.body.password_confirm) {
-					return res.status(400).send({success: false, error:'password and password_confirm do not match'});
+				if (req.body.password != req.body.passwordConfirm) {
+					return res.status(400).send({success: false, error:'password and passwordConfirm do not match'});
 				}
-				if (!req.body.password_current) {
-					return res.status(400).send({success: false, error:'password_current required'});
+				if (!req.body.passwordCurrent) {
+					return res.status(400).send({success: false, error:'passwordCurrent required'});
 				}
 			}
 			return resolve();
@@ -43,9 +44,9 @@ export default {
 				const update = {};
 				if (req.body.password) {
 					// make sure that the current password matches the one stored in the DB
-					const password = req.body.password_current;
+					const password = req.body.passwordCurrent;
 					if (!MatchPasswords({password, user})) {
-						return res.status(400).send({success: false, error:'password_current does not match the password for this user'});
+						return res.status(400).send({success: false, error:'passwordCurrent does not match the password for this user'});
 					} else {
 						update.password = req.body.password;
 					}

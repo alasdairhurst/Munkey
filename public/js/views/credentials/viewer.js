@@ -41,12 +41,15 @@ define([
 				self.model.save(null, {
 					success: function() {
 						$('#submit').val('Submit');
+						self.remove();
+						window.router.navigate('/', {trigger: true});
 					},
 					error: function(model, response) {
 						$('#submit').val('Submit');
 						$(self.$el).find('#response').html(response.responseJSON.error);
 					}
 				});
+
 			},0);
 
 		},

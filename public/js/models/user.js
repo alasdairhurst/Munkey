@@ -10,7 +10,7 @@ define([
     _s
 ) {
 	return Backbone.Model.extend({
-		idAttribute: 'username',
+		idAttribute: 'id',
 		url: '/api/v1/user',
 		parse: function(data) {
 			if (data.result) {

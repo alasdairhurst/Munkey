@@ -29,7 +29,7 @@ global.$config = {
 	session: {
 		secret: "",
 		cookie: {
-			expires: 60 * 60 * 1000 // 1 hour
+			maxAge: 10 * 60 * 1000 // 10 mins
 		}
 	},
 	db: {

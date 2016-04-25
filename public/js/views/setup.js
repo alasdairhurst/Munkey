@@ -36,6 +36,7 @@ define([
 			this.model.set(data);
 		},
 		submit: function(e) {
+			console.log(this.model);
 			e.preventDefault();
 			var self = this;
 			$('#submit').val('Saving...');

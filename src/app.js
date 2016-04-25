@@ -33,7 +33,7 @@ app.use(session({
 		secure: true,
 		httpOnly: false,
 		domain: $config.https.server.hostname,
-		expires: new Date(Date.now + $config.session.cookie.expires)
+		maxAge: $config.session.cookie.maxAge
 	},
 	name : 'munkeySessionId', // generic cookie names avoid attackers fingerprinting the default one
 	secret: global.$config.session.secret,

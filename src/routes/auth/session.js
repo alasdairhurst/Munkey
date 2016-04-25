@@ -3,7 +3,7 @@ const defaultFields = [
 ];
 
 /**
- * Returns the current session if it exists.
+ * Returns the current session if it exists and the user is logged in.
  */
 export default {
 	path: 'auth/session',
