@@ -56,13 +56,19 @@ define([
 			var self = this;
 			_.each(this.options.credential.fields, function(field, i) {
 				self.$el.find('#data').append(FieldTemplate({field: field, index:i}));
+				self.obscureField(i, field.obscured);
 			});
 		},
 		fieldChanged: function(e) {
 			var field = $(e.currentTarget);
-			var i = field.parent().attr('id');
+			var i = field.parent().parent().attr('id');
 			var type = field.attr('data-type');
-			this.options.credential.fields[i][type] = field.val();
+			var val = field.val();
+			if (type == 'obscured') {
+				val = field.prop('checked');
+				this.obscureField(i, val);
+			}
+			this.options.credential.fields[i][type] = val;
 		},
 		addField: function() {
 			var index = uuid.v4();
@@ -76,9 +82,17 @@ define([
 		},
 		removeField: function(e) {
 			var field = $(e.currentTarget);
-			var i = field.parent().attr('id');
-			field.parent().remove();
+			var i = field.parent().parent().attr('id');
+			field.parent().parent().remove();
 			delete this.options.credential.fields[i];
+		},
+		obscureField: function(id, hide) {
+			var field = this.$el.find('#' + id).find("[data-type=\'value\']");
+			var amount = hide ? 'blur(5px)' : '';
+			var legacy = hide ? 'url(\'/images/blur.svg#blur\')' : '';
+			field.css('-webkit-filter', amount); /* Chrome, Opera, etc. */
+			field.css('filter', legacy); /* Older FF and others - http://jordanhollinger.com/media/blur.svg */
+			field.css('filter', amount); /* Firefox 35+, eventually all */
 		},
 		submit: function(e) {
 			e.preventDefault();
