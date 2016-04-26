@@ -1,4 +1,4 @@
-![image](resources/LogoTitle.png)
+![image](public/images/LogoTitleSmall.png)
 
 Setup
 ##

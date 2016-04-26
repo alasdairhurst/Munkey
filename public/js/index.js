@@ -6,7 +6,8 @@ require.config({
 		'jquery': '../bower/jquery/dist/jquery',
 		'text': '../bower/text/text',
 		'tpl': '../bower/requirejs-tpl/tpl',
-		'crypto': '../bower/crypto-js/crypto-js'
+		'crypto': '../bower/crypto-js/crypto-js',
+		'uuid': '../bower/node-uuid/uuid'
 	}
 });
 

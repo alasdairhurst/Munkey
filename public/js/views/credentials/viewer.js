@@ -1,40 +1,89 @@
 define([
 	'backbone',
-	'tpl!/js/views/credentials/templates/viewer.html'
+	'uuid',
+	'tpl!/js/views/credentials/templates/viewer.html',
+	'tpl!/js/views/credentials/templates/field.html'
 ], function(
 	Backbone,
-	Template
+	uuid,
+	Template,
+    FieldTemplate
 ) {
 	return Backbone.View.extend({
 		el: 'body #content',
 		events: {
-			'change #viewer textarea': 'fieldChanged',
-			'click #viewer #submit': 'submit'
+			'change #viewer input': 'fieldChanged',
+			'click #viewer .delete-btn': 'removeField',
+			'click #viewer #submit': 'submit',
+			'click #viewer #add': 'addField',
+			'click #viewer #back-btn' : 'back'
 		},
 		model: null,
 		options: {},
-		initialize() {
+		initialize(options) {
+			this.undelegateEvents();
+			this.delegateEvents();
+			this.stopListening();
+			this.options = options || {};
 			this.model = window.App.User;
 			this.options.data = this.model.get('data');
-			if (!this.options.data) {
-				this.options.data = {
-					credentials: ''
+			if (this.options.isNew) {
+				this.options.id = uuid.v4();
+				if (!this.options.data || !this.options.data.credentials) {
+					this.options.data = {
+						credentials: {}
+					}
 				}
+				var nameID = uuid.v4();
+				this.options.data.credentials[this.options.id] = {
+					id: this.options.id,
+					nameID: nameID,
+					fields: {}
+				};
+				this.options.data.credentials[this.options.id].fields[nameID] = {
+					name: 'Name',
+					locked: true,
+					value: '',
+					obscured: false
+				}
+			} else {
+				this.options.isNew = false;
 			}
+			this.options.credential = this.options.data.credentials[this.options.id];
 		},
 		render: function() {
 			this.$el.html(Template(this.options));
+			var self = this;
+			_.each(this.options.credential.fields, function(field, i) {
+				self.$el.find('#data').append(FieldTemplate({field: field, index:i}));
+			});
 		},
 		fieldChanged: function(e) {
 			var field = $(e.currentTarget);
-			if (field.attr('id') == 'credentials') {
-				this.options.data.credentials = field.val();
-				this.model.set('data', this.options.data);
-			}
+			var i = field.parent().attr('id');
+			var type = field.attr('data-type');
+			this.options.credential.fields[i][type] = field.val();
+		},
+		addField: function() {
+			var index = uuid.v4();
+			var field = this.options.credential.fields[index] = {
+				name: '',
+				locked: false,
+				value: '',
+				obscured: false
+			};
+			this.$el.find('#data').append(FieldTemplate({field: field, index:index}));
+		},
+		removeField: function(e) {
+			var field = $(e.currentTarget);
+			var i = field.parent().attr('id');
+			field.parent().remove();
+			delete this.options.credential.fields[i];
 		},
 		submit: function(e) {
 			e.preventDefault();
 			var self = this;
+			this.model.set('data', this.options.data);
 			$('#submit').val('Saving...');
 			// it won't update the DOM until the end of the frame so defer this call
 			setTimeout(function() {
@@ -42,7 +91,7 @@ define([
 					success: function() {
 						$('#submit').val('Submit');
 						self.remove();
-						window.router.navigate('/', {trigger: true});
+						window.router.navigate('/credentials', {trigger: true});
 					},
 					error: function(model, response) {
 						$('#submit').val('Submit');
@@ -52,6 +101,10 @@ define([
 
 			},0);
 
+		},
+		back: function() {
+			this.remove();
+			window.router.navigate('/credentials', {trigger: true});
 		},
 		remove: function() {
 			this.undelegateEvents();

@@ -4,6 +4,7 @@ define([
 	'views/index',
 	'views/setup',
 	'views/credentials/viewer',
+	'views/credentials/index',
 	'models/user',
 	'models/session'
 ],
@@ -13,6 +14,7 @@ function(
     IndexView,
 	SetupView,
 	CredentialViewerView,
+	CredentialIndexView,
     UserModel,
     SessionModel
 ) {
@@ -23,7 +25,9 @@ function(
 			this.route('login', this.login);
 			this.route('logout', this.logout);
 			this.route('setup', this.setup);
-			this.route('credentials/viewer', this.credentialViewer);
+			this.route('credentials/new', this.newCredential);
+			this.route('credentials/view/:id', this.credentialViewer);
+			this.route('credentials', this.credentialList);
 
 		},
 		execute: function(callback, args) {
@@ -114,8 +118,14 @@ function(
 		setup: function() {
 			new SetupView().render();
 		},
-		credentialViewer: function() {
-			new CredentialViewerView().render();
+		credentialViewer: function(id) {
+			new CredentialViewerView({id: id}).render();
+		},
+		newCredential: function() {
+			new CredentialViewerView({isNew: true}).render();
+		},
+		credentialList: function() {
+			new CredentialIndexView().render();
 		}
 	});
 });

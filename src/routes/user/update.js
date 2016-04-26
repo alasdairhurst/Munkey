@@ -11,7 +11,6 @@ export default {
 		new Promise((resolve, reject) => {
 			//if the password is being updated then we want the new password,
 			// the confirmation and the current password
-			console.log(req.body, req.session);
 			if (req.body.password){
 				if (!req.body.passwordConfirm) {
 					return res.status(400).send({success: false, error:'passwordConfirm required'});
