@@ -2,10 +2,9 @@
 	<br/>
 	<h1>Home Page</h1>
 	<% if (loggedIn) { %>
-	<a href="/#/logout">Logout Here</a><br/>
+	<span>Welcome, <%= username %>.</span> <a class="pd-left" href="/#/logout">Logout</a>
 	<br/>
-
-	Welcome, <%= username %><br/>
+	<br/>
 	<% } else { %>
 	<a href="/#/login">Login Here</a><br/>
 	<br/>

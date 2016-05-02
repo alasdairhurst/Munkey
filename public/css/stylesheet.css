@@ -1,0 +1,31 @@
+#content {
+	background-color: #d2763b;
+	padding: 10px;
+	color: #333333;
+}
+
+a {
+	color: darkblue;
+	text-decoration: none;
+}
+
+a:hover {
+	color: cornflowerblue;
+}
+
+a:active {
+	color: aqua;
+}
+
+input[type=submit][type=button] {
+	background-color: black;
+	color: white;
+}
+
+td span {
+	font-weight:  bold;
+}
+
+.pd-left {
+	padding-left: 10px;
+}

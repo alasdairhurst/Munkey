@@ -18,11 +18,11 @@ define([
 	'backbone',
 	'jquery'
 ], function(
-    Router,
-    _,
-    _s,
-    Backbone,
-    $
+	Router,
+	_,
+	_s,
+	Backbone,
+	$
 ) {
 	_.mixin(_s.exports());
 	window.App = {};

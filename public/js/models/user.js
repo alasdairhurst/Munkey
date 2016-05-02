@@ -30,7 +30,7 @@ define([
 			// This makes sure that the original password is never sent to the server
 			// prepend username to password before salting and hashing.
 			var opts = {
-					iterations: 1000,
+					iterations: 5000,
 					keySize: 512/32
 				},
 				saltOpts = {
@@ -40,7 +40,7 @@ define([
 				unsaltedPassword = this.get('username') + password,
 				saltSalt = 'thisShouldBeInAConfig',
 				// create a salt based on the username
-				salt = Crypto.PBKDF2(this.get('username'), saltSalt, saltOpts).toString(Crypto.enc.Base64);
+				salt = Crypto.PBKDF2(this.get('username'), this.get('username'), saltOpts).toString(Crypto.enc.Base64);
 			return Crypto.PBKDF2(unsaltedPassword, salt, opts).toString(Crypto.enc.Base64);
 		},
 		_encryptData: function(data, password) {

@@ -36,7 +36,6 @@ define([
 				}
 				var nameID = uuid.v4();
 				this.options.data.credentials[this.options.id] = {
-					id: this.options.id,
 					nameID: nameID,
 					fields: {}
 				};
@@ -128,3 +127,19 @@ define([
 		}
 	})
 });
+
+data = {
+	credentials: {
+		'{uuid}': {
+			nameID: '{nameuuid}',
+			fields: {
+				'{fielduuid}': {
+					name: '',
+					locked: false,
+					value: '',
+					obscured: false
+				}
+			}
+		}
+	}
+}
