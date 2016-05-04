@@ -24,5 +24,5 @@ Run the setup script
 To build and run the project:
 ```npm run start```
 
-To just build the project:
-```npm run build```
+To create a new account visit:
+/#/setup
