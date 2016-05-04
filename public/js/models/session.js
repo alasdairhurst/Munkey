@@ -37,7 +37,7 @@ define([
 			// This makes sure that the original password is never sent to the server
 			// prepend username to password before salting and hashing.
 			var opts = {
-					iterations: 1000,
+					iterations: 5000,
 					keySize: 512/32
 				},
 				saltOpts = {
